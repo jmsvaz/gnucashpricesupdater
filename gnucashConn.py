@@ -37,7 +37,7 @@ class GnuCashConn:
         guid = ""
         guidExists = True
         while(guidExists == True):
-            guid = self.generateGuid()
+            guid = str(uuid.uuid4()).replace('-','')
             rowCount = len(cur.execute("select * from prices where guid = ?", (guid,)).fetchall())
             if rowCount == 0:
                 guidExists = False
