@@ -22,14 +22,22 @@ No GnuCash, informar os seguintes dados:
    
 ### Configuração da aplicação
 
-Configurações devem ser definidas no arquivo *settings.py*:
+O arquivo *settings.py.template* deve ser renomeado para *settings.py*
+
+A configurações devem ser definidas no arquivo *settings.py*:
 
 ```
 #app configuration
 app_files_dir = './files/'
 gnucash_database_path = "/caminho/para/arquivo.gnucash"
-```
 
+# B3 commodities
+B3_commodities = ['ACAO']
+
+# Funds commodities
+CVM_Funds_commodities = ['FUNDO RF','FUNDO MULTI','PREVIDENCIA']
+
+```
 
 ### Forma de Uso
 
