@@ -6,7 +6,8 @@ class FundsFileMng:
     url = settings.cvm_funds_url
     __csvDf = None
 
-    def loadFile(self, period):
+    def loadFile(self, date):
+        period = date.replace('-','')[0:6]
         url = self.url.replace('{YYYYMM}',period)
         print('Requesting URL: ' + url)
         if requests.head(url).status_code == 200:
