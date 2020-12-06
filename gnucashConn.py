@@ -53,6 +53,8 @@ class GnuCashConn:
 
     def savePrices(self, priceList):
         conn = self.__conn
+        updated = 0
+        inserted = 0
         with conn:
             for p in priceList:
                 tempPrice = self.__getPriceByCommodityDate(p.commodity_guid, p.date)
@@ -60,13 +62,16 @@ class GnuCashConn:
                 #update
                 if(len(tempPrice) == 1):
                     self.__updatePrice(tempPrice[0][0], p.value, p.denom)
-                    print('  ' + p.commodity_fullName + ' - updated')
+                    updated += 1
                 
                 #insert
                 if len(tempPrice) == 0:
                     self.__insertPrice(p.commodity_guid, p.currency_guid, p.date, p.value, p.denom)
-                    print('  ' + p.commodity_fullName + ' - inserted')
-
+                    inserted += 1
+        if updated > 0:
+            print('   Updated ' + str(updated) + ' prices')
+        if inserted > 0:
+            print('   Added ' + str(inserted) + ' new prices')
 
 class GnuCashPrice:
     def __init__(self, commodity_guid, commodity_fullName, currency_guid, date, denom, value):

@@ -11,20 +11,21 @@ def numberOfDigits(value):
 
 gc = GnuCashConn(settings.gnucash_database_path)
 if not gc.loadFile():
-    exit('GnuCash file not available!')
+    exit(' # GnuCash file not available!')
 
 fundsFileMng = FundsFileMng(settings.cvm_funds_url)
 if not fundsFileMng.loadFile(settings.date):
-    exit('CVM file not available!')
+    exit(' # CVM file not available!')
 
 stockQuotes = StockQuotes(settings.b3_urlBase, settings.b3_fileNameBase, settings.app_files_dir)
 if not stockQuotes.loadFile(settings.date):
-    exit('B3 file not available!')
+    exit(' # B3 file not available!')
 
 brazilianCurrencyGuid = gc.getBrasilianCurrencyGuid()
 commodities = gc.getCommodities()
 newPriceList = []
 
+print('Searching prices for ' + settings.date + ':')
 for c in commodities:
     result = None
     if (c[1] in settings.CVM_Funds_commodities):
@@ -36,10 +37,11 @@ for c in commodities:
     if result != None:
         denom = int(10 ** numberOfDigits(result))
         value = int(result * denom)
+        print('  Found price for ' + c[3])
         newPriceList.append(GnuCashPrice(c[0],c[3],brazilianCurrencyGuid,settings.date, denom, value))
 
 if len(newPriceList) > 0:
-    print('Updating commodities values from ' + settings.date + ':')
+    print('Updating GnuCash:')
     gc.savePrices(newPriceList)
 else:
-    print('No data for ' + settings.date)
+    print('No price found for ' + settings.date)
