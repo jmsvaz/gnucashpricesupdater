@@ -8,6 +8,7 @@ class GnuCashConn:
 
     def loadFile(self):
         if os.path.exists(self.database_path):
+            self.__conn = sqlite3.connect(self.database_path)
             return True
         else:
             return False    
@@ -19,31 +20,22 @@ class GnuCashConn:
         return sqlite3.connect(self.database_path)
     
     def getCommodities(self):
-        conn = self.createConn()
-        with conn:
-            cur = conn.cursor()
-            cur.execute("select guid, namespace, mnemonic, fullname from commodities")
-            return cur.fetchall()
+        cur = self.__conn.cursor()
+        cur.execute("select guid, namespace, mnemonic, fullname from commodities")
+        return cur.fetchall()
 
     def getBrasilianCurrencyGuid(self):
-        conn = self.createConn()
-        with conn:
-            cur = conn.cursor()
-            cur.execute("select guid from commodities where namespace = 'CURRENCY' and mnemonic = 'BRL'")
-            return cur.fetchone()[0]
+        cur = self.__conn.cursor()
+        cur.execute("select guid from commodities where namespace = 'CURRENCY' and mnemonic = 'BRL'")
+        return cur.fetchone()[0]
 
-    def __getPriceByCommodityDate(self, conn, commodity_guid, date):
-        cur = conn.cursor()
+    def __getPriceByCommodityDate(self, commodity_guid, date):
+        cur = self.__conn.cursor()
         cur.execute("select guid, commodity_guid, currency_guid, date, source, type, value_num, value_denom from prices where commodity_guid = ? and substr(date,1, 10) = ?", (commodity_guid, date,))
         return cur.fetchall()
 
-    def getPriceByCommodityDate(self, commodity_guid, date):
-        conn = self.createConn()
-        with conn:
-            return self.__getPriceByCommodityDate(conn, commodity_guid, date)
-
     def __insertPrice(self, conn, commodity_guid, currency_guid, date, value, denom):
-        cur = conn.cursor()
+        cur = self.__conn.cursor()
         #chech if guid exists
         guid = ""
         guidExists = True
@@ -54,18 +46,18 @@ class GnuCashConn:
                 guidExists = False
 
         cur.execute("insert into prices (guid, commodity_guid, currency_guid, date, source, type, value_num, value_denom) values (?, ?, ?, ?, 'user:price', 'last', ?, ?)", (guid, commodity_guid, currency_guid, date + ' 05:00:00', value, denom,))
-        conn.commit()
+        self.__conn.commit()
 
     def __updatePrice(self, conn, price_guid, value, denom):
-        cur = conn.cursor()
+        cur = self.__conn.cursor()
         cur.execute("update prices set value_num = ?, value_denom = ? where guid = ?", (value, denom, price_guid,))
-        conn.commit()
+        self.__conn.commit()
 
     def savePrices(self, priceList):
-        conn = self.createConn()
+        conn = self.__conn
         with conn:
             for p in priceList:
-                tempPrice = self.__getPriceByCommodityDate(conn, p.commodity_guid, p.date)
+                tempPrice = self.__getPriceByCommodityDate(p.commodity_guid, p.date)
 
                 #update
                 if(len(tempPrice) == 1):
