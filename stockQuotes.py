@@ -3,17 +3,18 @@ import pandas
 import os.path
 from time import sleep
 from zipfile import ZipFile
-import settings
 
 class StockQuotes:
-    __urlBase = settings.b3_urlBase
-    __fileNameBase = settings.b3_fileNameBase
-    __df = None
+    def __init__(self, b3_urlBase, b3_fileNameBase, app_files_dir):
+        self.__urlBase = b3_urlBase
+        self.__fileNameBase = b3_fileNameBase
+        self.__app_files_dir = app_files_dir
+        self.__df = None
 
     def loadFile(self, date):
         period = date.replace('-','')[4:6] + date.replace('-','')[0:4]
         aFileName = self.__fileNameBase.replace('{MMYYYY}', period)        
-        fileName = settings.app_files_dir + aFileName
+        fileName = self.__app_files_dir + aFileName
         url = self.__urlBase + aFileName
         
         print('Requesting URL: ' + url)
@@ -29,7 +30,7 @@ class StockQuotes:
 
 
         with ZipFile(fileName, 'r') as zipObj:
-            zipObj.extractall(settings.app_files_dir)
+            zipObj.extractall(self.__app_files_dir)
 
         df = pandas.read_fwf(fileName.replace('ZIP','TXT'), names=['type', 'date', 'stock', 'price'], header=None, colspecs=[(0,2), (2,10), (12,24), (109,121)])
         df['price'] = df['price'].map(lambda price: price / 100)

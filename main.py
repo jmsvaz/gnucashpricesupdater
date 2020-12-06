@@ -18,7 +18,7 @@ fundsFileMng = FundsFileMng()
 if not fundsFileMng.loadFile(settings.date):
     exit('CVM file not available!')
 
-stockQuotes = StockQuotes()
+stockQuotes = StockQuotes(settings.b3_urlBase, settings.b3_fileNameBase, settings.app_files_dir)
 if not stockQuotes.loadFile(settings.date):
     exit('B3 file not available!')
 
