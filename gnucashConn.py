@@ -28,7 +28,7 @@ class GnuCashConn:
         cur.execute("select guid, commodity_guid, currency_guid, date, source, type, value_num, value_denom from prices where commodity_guid = ? and substr(date,1, 10) = ?", (commodity_guid, date,))
         return cur.fetchall()
 
-    def __insertPrice(self, commodity_guid, currency_guid, date, value, denom):
+    def __newGuid(self):
         cur = self.__conn.cursor()
         #chech if guid exists
         guid = ""
@@ -38,7 +38,11 @@ class GnuCashConn:
             rowCount = len(cur.execute("select * from prices where guid = ?", (guid,)).fetchall())
             if rowCount == 0:
                 guidExists = False
+        return guid
 
+    def __insertPrice(self, commodity_guid, currency_guid, date, value, denom):
+        guid = self.__newGuid()
+        cur = self.__conn.cursor()
         cur.execute("insert into prices (guid, commodity_guid, currency_guid, date, source, type, value_num, value_denom) values (?, ?, ?, ?, 'user:price', 'last', ?, ?)", (guid, commodity_guid, currency_guid, date + ' 05:00:00', value, denom,))
         self.__conn.commit()
 
