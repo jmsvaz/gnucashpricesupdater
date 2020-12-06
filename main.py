@@ -20,6 +20,8 @@ if not fundsFileMng.loadFile(settings.date):
     exit('CVS file not available!')
 
 stockQuotes = StockQuotes()
+if not stockQuotes.loadFile(settings.date):
+    exit('B3 file not available!')
 
 brazilianCurrencyGuid = gc.getBrasilianCurrencyGuid()
 commodities = gc.getCommodities()
