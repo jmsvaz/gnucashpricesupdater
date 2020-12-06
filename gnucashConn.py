@@ -79,12 +79,13 @@ class GnuCashConn:
 
 
 class GnuCashPrice:
-    guid = ''
-    commodity_guid = ''
-    commodity_fullName = ''
-    currency_guid = ''
-    date = ''
-    source = 'user:price'
-    type = 'last'
-    value = 0
-    denom = 0
+    def __init__(self, commodity_guid, commodity_fullName, currency_guid, date, denom, value):
+        self.guid = ''
+        self.commodity_guid = commodity_guid
+        self.commodity_fullName = commodity_fullName
+        self.currency_guid = currency_guid
+        self.date = date
+        self.source = 'user:price'
+        self.type = 'last'
+        self.denom = denom
+        self.value = value

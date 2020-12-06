@@ -33,14 +33,9 @@ for c in commodities:
         result = stockQuotes.getPriceByDate(c[2], settings.date)
 
     if result != None:
-        newPrice = GnuCashPrice()
-        newPrice.commodity_guid = c[0]
-        newPrice.commodity_fullName = c[3]
-        newPrice.currency_guid = brazilianCurrencyGuid
-        newPrice.date = settings.date
-        newPrice.denom = int(10 ** numberOfDigits(result))
-        newPrice.value = int(result * newPrice.denom)
-        newPriceList.append(newPrice)
+        denom = int(10 ** numberOfDigits(result))
+        value = int(result * denom)
+        newPriceList.append(GnuCashPrice(c[0],c[3],brazilianCurrencyGuid,settings.date, denom, value))
 
 if len(newPriceList) > 0:
     print('Updating commodities values from ' + settings.date + ':')
