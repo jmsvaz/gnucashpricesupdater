@@ -70,12 +70,12 @@ class GnuCashConn:
                 #update
                 if(len(tempPrice) == 1):
                     self.__updatePrice(conn, tempPrice[0][0], p.value, p.denom)
-                    print(p.commodity_fullName + ' - update')
+                    print(p.commodity_fullName + ' - updated (' + p.date + ')')
                 
                 #insert
                 if len(tempPrice) == 0:
                     self.__insertPrice(conn, p.commodity_guid, p.currency_guid, p.date, p.value, p.denom)
-                    print(p.commodity_fullName + ' - insert')
+                    print(p.commodity_fullName + ' - inserted (' + p.date + ')')
 
 
 class GnuCashPrice:
