@@ -1,7 +1,5 @@
 import requests
 import pandas
-import os.path
-from time import sleep
 from zipfile import ZipFile
 
 class StockQuotes:

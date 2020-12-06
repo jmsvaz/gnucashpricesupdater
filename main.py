@@ -1,5 +1,3 @@
-import pandas
-import sqlite3
 from gnucashConn import GnuCashConn
 from gnucashConn import GnuCashPrice
 from fundsFileMng import FundsFileMng
