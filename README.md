@@ -22,7 +22,7 @@ No GnuCash, informar os seguintes dados:
    
 ### Configuração da aplicação
 
-Configurações devem ser definidas no arquivo settings:
+Configurações devem ser definidas no arquivo *settings.py*:
 
 ```
 #app configuration
@@ -30,9 +30,10 @@ app_files_dir = './files/'
 gnucash_database_path = "/caminho/para/arquivo.gnucash"
 ```
 
+
 ### Forma de Uso
 
-Dentro do arquivo *main.py* alterar a variável *date* para o valor desejado. (caso deseje, pode ser alterado para receber o valor da linha de comando)
+Dentro do arquivo *settings.py* alterar a variável *date* para o valor desejado. (caso deseje, pode ser alterado para receber o valor da linha de comando)
 
 ```
 date = 'YYYY-MM-DD'
