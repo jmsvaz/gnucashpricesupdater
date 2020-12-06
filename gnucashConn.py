@@ -11,10 +11,7 @@ class GnuCashConn:
             self.__conn = sqlite3.connect(self.database_path)
             return True
         else:
-            return False    
-
-    def generateGuid(self):
-        return str(uuid.uuid4()).replace('-','')
+            return False 
     
     def getCommodities(self):
         cur = self.__conn.cursor()
