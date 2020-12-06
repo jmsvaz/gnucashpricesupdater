@@ -15,10 +15,10 @@ Premissa: arquivo do GnuCash deve estar salvo no formato SQLite (o padrão é XM
 No GnuCash, informar os seguintes dados:
 -  Fundos de Investimento:
   - Agrupamentos: FUNDO RF, FUNDO MULTI ou PREVIDENCIA
-  - Informar o CNPJ (formatado 00.000.000/0000-00)
+  - Informar o CNPJ como Símbolo/Abreviatura (formatado 00.000.000/0000-00)
  - Ações, FIIs de mais ativos negociado na B3:
    - Agrupamento: ACAO
-   - Informar o ticker do ativo. Ex: PETR4
+   - Informar o ticker do ativo como Símbolo/Abreviatura. Ex: PETR4
    
 ### Configuração da aplicação
 
