@@ -15,9 +15,6 @@ class GnuCashConn:
 
     def generateGuid(self):
         return str(uuid.uuid4()).replace('-','')
-
-    def createConn(self):
-        return sqlite3.connect(self.database_path)
     
     def getCommodities(self):
         cur = self.__conn.cursor()
