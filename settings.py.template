@@ -16,4 +16,4 @@ cvm_funds_url = 'http://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/inf_diari
 
 #B3 configuratin
 b3_urlBase = 'http://bvmf.bmfbovespa.com.br//InstDados/SerHist/'
-b3_fileNameBase = 'COTAHIST_M{PERIODO}.ZIP'
+b3_fileNameBase = 'COTAHIST_M{MMYYYY}.ZIP'
