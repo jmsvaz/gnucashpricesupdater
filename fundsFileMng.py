@@ -17,4 +17,7 @@ class FundsFileMng:
             return False
 
     def getQuotesByCnpjDate(self, cnpj, date):
-        return self.__csvDf[(self.__csvDf['CNPJ_FUNDO'] == cnpj) & (self.__csvDf['DT_COMPTC'] == date)]
+        results = self.__csvDf[(self.__csvDf['CNPJ_FUNDO'] == cnpj) & (self.__csvDf['DT_COMPTC'] == date)]
+        if len(results) == 1:
+            return results['VL_QUOTA'].iloc[0]
+         
