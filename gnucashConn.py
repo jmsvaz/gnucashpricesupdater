@@ -1,10 +1,10 @@
 import sqlite3
 import uuid
 import os.path
-import settings
 
 class GnuCashConn:
-    database_path = settings.gnucash_database_path
+    def __init__(self, gnucash_database_path):
+        self.database_path = gnucash_database_path
 
     def loadFile(self):
         if os.path.exists(self.database_path):

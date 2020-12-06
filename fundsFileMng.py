@@ -1,14 +1,14 @@
 import requests
 import pandas
-import settings
 
 class FundsFileMng:
-    url = settings.cvm_funds_url
-    __csvDf = None
+    def __init__(self, cvm_funds_url):
+        self.__url = cvm_funds_url
+        self.__csvDf = None    
 
     def loadFile(self, date):
         period = date.replace('-','')[0:6]
-        url = self.url.replace('{YYYYMM}',period)
+        url = self.__url.replace('{YYYYMM}',period)
         print('Requesting URL: ' + url)
         if requests.head(url).status_code == 200:
             self.__csvDf = pandas.read_csv(url, delimiter=';')

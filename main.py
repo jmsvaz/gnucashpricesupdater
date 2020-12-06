@@ -10,11 +10,11 @@ import settings
 def numberOfDigits(value):
     return str(value)[::-1].find('.')
 
-gc = GnuCashConn()
+gc = GnuCashConn(settings.gnucash_database_path)
 if not gc.loadFile():
     exit('GnuCash file not available!')
 
-fundsFileMng = FundsFileMng()
+fundsFileMng = FundsFileMng(settings.cvm_funds_url)
 if not fundsFileMng.loadFile(settings.date):
     exit('CVM file not available!')
 
