@@ -10,12 +10,15 @@ import settings
 def numberOfDigits(value):
     return str(value)[::-1].find('.')
 
+gc = GnuCashConn()
+if not gc.loadFile():
+    exit('GnuCash file not available!')
+
 fundsFileMng = FundsFileMng()
 
 if not fundsFileMng.loadFile(settings.date):
     exit('CVS file not available!')
 
-gc = GnuCashConn()
 stockQuotes = StockQuotes()
 
 brazilianCurrencyGuid = gc.getBrasilianCurrencyGuid()

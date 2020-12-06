@@ -1,9 +1,16 @@
 import sqlite3
 import uuid
+import os.path
 import settings
 
 class GnuCashConn:
     database_path = settings.gnucash_database_path
+
+    def loadFile(self):
+        if os.path.exists(self.database_path):
+            return True
+        else:
+            return False    
 
     def generateGuid(self):
         return str(uuid.uuid4()).replace('-','')
