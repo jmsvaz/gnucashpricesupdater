@@ -15,9 +15,8 @@ if not gc.loadFile():
     exit('GnuCash file not available!')
 
 fundsFileMng = FundsFileMng()
-
 if not fundsFileMng.loadFile(settings.date):
-    exit('CVS file not available!')
+    exit('CVM file not available!')
 
 stockQuotes = StockQuotes()
 if not stockQuotes.loadFile(settings.date):
@@ -46,4 +45,5 @@ for c in commodities:
         newPriceList.append(newPrice)
 
 if len(newPriceList) > 0:
+    print('Updating commodities values from ' + settings.date + ':')
     gc.savePrices(newPriceList)

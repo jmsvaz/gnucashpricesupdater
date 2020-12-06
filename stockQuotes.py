@@ -35,6 +35,7 @@ class StockQuotes:
         df['price'] = df['price'].map(lambda price: price / 100)
         if isinstance(df, pandas.DataFrame):
             self.__df =  df
+            print('  Download OK')
             return True
         else:
             return False          
@@ -57,6 +58,3 @@ class StockQuotes:
                     return dfOnDate['price'].iloc[0]
         
         return None
-
-#x = StockQuotes()
-#print(x.getPricesByMonth('TGAR11','2020-02-28'))

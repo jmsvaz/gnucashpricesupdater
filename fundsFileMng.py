@@ -12,6 +12,7 @@ class FundsFileMng:
         print('Requesting URL: ' + url)
         if requests.head(url).status_code == 200:
             self.__csvDf = pandas.read_csv(url, delimiter=';')
+            print('  Download OK')
             return True
         else:
             return False
