@@ -24,7 +24,7 @@ No GnuCash, informar os seguintes dados:
 
 O arquivo *settings.py.template* deve ser renomeado para *settings.py*
 
-A configurações devem ser definidas no arquivo *settings.py*:
+As configurações devem ser definidas no arquivo *settings.py*:
 
 ```
 #app configuration
