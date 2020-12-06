@@ -4,6 +4,7 @@ from fundsFileMng import FundsFileMng
 from stockQuotes import StockQuotes
 import settings
 
+print('GnuCash Price Updater')
 
 def numberOfDigits(value):
     return str(value)[::-1].find('.')
@@ -40,3 +41,5 @@ for c in commodities:
 if len(newPriceList) > 0:
     print('Updating commodities values from ' + settings.date + ':')
     gc.savePrices(newPriceList)
+else:
+    print('No data for ' + settings.date)

@@ -28,7 +28,7 @@ class GnuCashConn:
         cur.execute("select guid, commodity_guid, currency_guid, date, source, type, value_num, value_denom from prices where commodity_guid = ? and substr(date,1, 10) = ?", (commodity_guid, date,))
         return cur.fetchall()
 
-    def __insertPrice(self, conn, commodity_guid, currency_guid, date, value, denom):
+    def __insertPrice(self, commodity_guid, currency_guid, date, value, denom):
         cur = self.__conn.cursor()
         #chech if guid exists
         guid = ""
@@ -42,7 +42,7 @@ class GnuCashConn:
         cur.execute("insert into prices (guid, commodity_guid, currency_guid, date, source, type, value_num, value_denom) values (?, ?, ?, ?, 'user:price', 'last', ?, ?)", (guid, commodity_guid, currency_guid, date + ' 05:00:00', value, denom,))
         self.__conn.commit()
 
-    def __updatePrice(self, conn, price_guid, value, denom):
+    def __updatePrice(self, price_guid, value, denom):
         cur = self.__conn.cursor()
         cur.execute("update prices set value_num = ?, value_denom = ? where guid = ?", (value, denom, price_guid,))
         self.__conn.commit()
@@ -55,12 +55,12 @@ class GnuCashConn:
 
                 #update
                 if(len(tempPrice) == 1):
-                    self.__updatePrice(conn, tempPrice[0][0], p.value, p.denom)
+                    self.__updatePrice(tempPrice[0][0], p.value, p.denom)
                     print('  ' + p.commodity_fullName + ' - updated')
                 
                 #insert
                 if len(tempPrice) == 0:
-                    self.__insertPrice(conn, p.commodity_guid, p.currency_guid, p.date, p.value, p.denom)
+                    self.__insertPrice(p.commodity_guid, p.currency_guid, p.date, p.value, p.denom)
                     print('  ' + p.commodity_fullName + ' - inserted')
 
 
