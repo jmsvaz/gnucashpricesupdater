@@ -2,8 +2,8 @@
 app_files_dir = './files/'
 gnucash_database_path = '...'
 
-# date to retrieve info
-date = '2020-02-28'
+# dates to retrieve info
+dates = ['2020-12-30','2020-12-31']
 
 # B3 commodities
 B3_commodities = ['ACAO']
