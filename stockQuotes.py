@@ -8,6 +8,7 @@ class StockQuotes:
         self.__fileNameBase = b3_fileNameBase
         self.__app_files_dir = app_files_dir
         self.__df = None
+        self.commodities = set()
 
     def loadFile(self, date):
         period = date.replace('-','')[4:6] + date.replace('-','')[0:4]
@@ -31,10 +32,11 @@ class StockQuotes:
             zipObj.extractall(self.__app_files_dir)
 
         df = pandas.read_fwf(fileName.replace('ZIP','TXT'), names=['type', 'date', 'stock', 'price'], header=None, colspecs=[(0,2), (2,10), (12,24), (109,121)])
-        df['price'] = df['price'].map(lambda price: price / 100)
         if isinstance(df, pandas.DataFrame):
+            df['price'] = df['price'].map(lambda price: price / 100)
+            self.commodities = set(df['stock'].unique())
             self.__df =  df
-            print('  Download OK')
+            print('  Download OK')            
             return True
         else:
             return False          

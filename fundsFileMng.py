@@ -4,7 +4,8 @@ import pandas
 class FundsFileMng:
     def __init__(self, cvm_funds_url):
         self.__url = cvm_funds_url
-        self.__csvDf = None    
+        self.__csvDf = None
+        self.commodities = set()    
 
     def loadFile(self, date):
         period = date.replace('-','')[0:6]
@@ -12,6 +13,7 @@ class FundsFileMng:
         print('Requesting URL: ' + url)
         if requests.head(url).status_code == 200:
             self.__csvDf = pandas.read_csv(url, delimiter=';')
+            self.commodities = set(self.__csvDf['CNPJ_FUNDO'].unique())
             print('  Download OK')
             return True
         else:
