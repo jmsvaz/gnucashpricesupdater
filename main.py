@@ -1,7 +1,7 @@
 from gnucashConn import GnuCashConn
 from gnucashConn import GnuCashPrice
-from fundsFileMng import FundsFileMng
-from stockQuotes import StockQuotes
+from fundosCVM import FundosCVM
+from B3 import B3
 from tesourodireto import TesouroDireto
 import settings
 
@@ -10,15 +10,15 @@ print('GnuCash Price Updater')
 def numberOfDigits(value):
     return str(value)[::-1].find('.')
 
-gc = GnuCashConn(settings.gnucash_database_path)
+gc = GnuCashConn(settings.gnuCashFile)
 if not gc.loadFile():
     exit(' # GnuCash file not available!')
 
-fundsFileMng = FundsFileMng(settings.cvm_funds_url)
+fundosCVM = FundosCVM(settings.fundoscvm_urlBase, settings.fundoscvm_fileName, settings.app_files_dir)
 
-stockQuotes = StockQuotes(settings.b3_urlBase, settings.b3_fileNameBase, settings.app_files_dir)
+b3 = B3(settings.b3_urlBase, settings.b3_fileName, settings.app_files_dir)
 
-tesouroDireto = TesouroDireto(settings.td_url)
+tesouroDireto = TesouroDireto(settings.tesourodireto_urlBase, settings.tesourodireto_fileName, settings.app_files_dir)
 
 brazilianCurrencyGuid = gc.getBrasilianCurrencyGuid()
 commodities = gc.getCommodities()
@@ -27,26 +27,26 @@ newPriceList = []
 for date in settings.dates:
     print('Searching prices for ' + date + ':')
 
-    if not fundsFileMng.loadFile(date):
+    if not fundosCVM.loadFile(date):
         print(' # CVM file not available!')
     else:
         for c in commodities:
             result = None
-            if (c[1] in settings.CVM_Funds_commodities):
-                result = fundsFileMng.getQuotesByCnpjDate(c[2], date)
+            if (c[1] in settings.fundoscvm_namespace):
+                result = fundosCVM.getQuotesByCnpjDate(c[2], date)
             if result != None:
                 denom = int(10 ** numberOfDigits(result))
                 value = int(result * denom)
                 print('  Found price for ' + c[3])
                 newPriceList.append(GnuCashPrice(c[0],c[3],brazilianCurrencyGuid,date, denom, value))
                 
-    if not stockQuotes.loadFile(date):
+    if not b3.loadFile(date):
             print(' # B3 file not available!')
     else:
         for c in commodities:
             result = None
-            if (c[1] in settings.B3_commodities):
-                result = stockQuotes.getPriceByDate(c[2], date)
+            if (c[1] in settings.b3_namespace):
+                result = b3.getPriceByDate(c[2], date)
             if result != None:
                 denom = int(10 ** numberOfDigits(result))
                 value = int(result * denom)
@@ -58,7 +58,7 @@ for date in settings.dates:
     else:
         for c in commodities:
             result = None
-            if (c[1] in settings.TD_commodities):
+            if (c[1] in settings.tesourodireto_namespace):
                 result = tesouroDireto.getQuotesByDate(c[2], date)
             if result != None:
                 denom = int(10 ** numberOfDigits(result))
