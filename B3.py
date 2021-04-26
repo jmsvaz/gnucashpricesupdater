@@ -36,7 +36,7 @@ class B3:
             with ZipFile(fileName, 'r') as zipObj:
                 zipObj.extractall(self.__app_files_dir)
 
-            df = pandas.read_fwf(fileName.replace('ZIP','TXT'), names=['type', 'date', 'stock', 'price'], header=None, colspecs=[(0,2), (2,10), (12,24), (109,121)])
+            df = pandas.read_fwf(fileName.replace('ZIP','TXT'), names=['type', 'date', 'stock', 'price'], header=None, colspecs=[(0,2), (2,10), (12,24), (108,121)])
             if isinstance(df, pandas.DataFrame):
                 df['price'] = df['price'].map(lambda price: price / 100)
                 self.commodities = set(df['stock'].unique())
